@@ -1,3 +1,4 @@
 /data
 /node_modules
+/json_batch_for_testing
 .env
