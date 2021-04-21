@@ -1,4 +1,7 @@
 /data
-/node_modules
+
+# it works but need to install modules again and again to run server.
+# /node_modules
+
 /json_batch_for_testing
 .env
