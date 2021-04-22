@@ -4,7 +4,7 @@ tasks:
   - name: Running MongoDB
     command: mongod --dbpath data   
     # command: mkdir -p data && mongod --dbpath data
-  - name: install npm modules  
-    command: npm i -g nodemon axios morgan cors express body-parser mongoose multer fs path del dotenv xslt-processor xml-js heroku
-  - name: start server
-    command: npm start
+  - name: install npm modules and start server  
+    command: npm i -g nodemon axios morgan cors express body-parser mongoose multer fs path del dotenv xslt-processor xml-js heroku && npm start
+  # - name: start server
+  #   command: npm start
