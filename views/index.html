@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./css/bootstrap.min.css" rel="stylesheet">
   <link href="./css/main.css" rel="stylesheet">
-  <!-- <script src="html-form-enhancer.mjs" type="module"></script> -->
   <title>Document</title>
 </head>
 
@@ -26,9 +25,9 @@
               <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="./updates.html">Current updates</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -50,13 +49,11 @@
           <option value="0">Create</option>
           <option value="1">Update</option>
           <option value="2">Delete</option>
-          <!-- <option value="3">Calculate Biil</option> delete this op -->
         </select>
         <div class="order-1">
 
           <form enctype="application/json" action="/books" method="post" id="formCreation">
             <div class="form-group mt-3 mb-0">
-              <!-- <input style="display:none;" class="form-control mt-3" type="text" name="sec_n" placeholder="sec_n" value="0" readonly> -->
               <!-- req.body -->
               <input class="form-control mt-3" type="text" name="name" placeholder="section_name" value="FICTION" readonly>
               <input class="form-control mt-3" type="text" name="title" placeholder="Title" required>
@@ -71,8 +68,6 @@
           <form enctype="application/json"  id="formUpdate">
             <div class="form-group mt-3 mb-0">
                <!-- req.body -->
-               <!-- <input style="display:none;" class="form-control mt-3" type="text" name="sec_n" placeholder="sec_n" value="0" readonly> -->
-               <!-- <input style="display:none;" class="form-control mt-3" type="text" name="entree" placeholder="entree" readonly> -->
                <input class="form-control mt-3" type="text" name="id" placeholder="ID" readonly>
                <input class="form-control mt-3" type="text" name="name" placeholder="section_name" value="FICTION" readonly>
                <input class="form-control mt-3" type="text" name="title" placeholder="Title"  required>
@@ -80,7 +75,6 @@
                <input class="form-control mt-3" type="number" name="price" placeholder="Price" step='0.01' value='0.00'
                  pattern="\d+" min="0" max="200" required>
                 <button type="submit" id="updateSubmit" class="btn btn-primary btn-block mt-3">Submit</button>
-              <!-- <button type="submit" class="btn btn-primary btn-block mt-3">Submit</button> -->
             </div>
             <p class="text-muted" id="up-text-muted">To update a book, click the required row first</p>
           </form>

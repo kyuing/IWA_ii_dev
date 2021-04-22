@@ -1,16 +1,3 @@
-/**
- * [npm modules intalled]
- * npm init
- * npm i --save nodemon axios morgan cors express body-parser mongoose multer fs path del dotenv xslt-processor xml-js
- * 
- * [some other useful npm commands]
- * npm i connect
- * pkill -f node
- * 
- * [To run index.js, on terminal based on pwd is /] 
- * npm start
- * 
- */
 const http = require('http'),
 // axios = require('axios'),
 logger = require('morgan'),
@@ -22,7 +9,7 @@ dotenv = require('dotenv'),
 mongoose = require('mongoose'); 
 
 var app = express();
-var port = 8000;
+var port = process.env.PORT || 8000;
 
 // Middlewares 
 dotenv.config();

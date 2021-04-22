@@ -28,7 +28,7 @@ exports.getBooks = function (req, res) {
       res.end()
     })
 
-    let result = returnResult(req, res, books);
+    let result = returnResult(books);
     readStream.pipe(res.end(result.toString())) // Stream chunks to response
 
     /************************
@@ -41,7 +41,7 @@ exports.getBooks = function (req, res) {
 
 //may need to do await async
 //function to categorize books OBJ by section and return a xml converted. 
-function returnResult(req, res, books) {
+function returnResult(books) {
 
   let FICTION = [],
     SF = [],
@@ -143,7 +143,7 @@ exports.createBook = function (req, res) {
         res.status(400).json(err);
       }
 
-      console.log("\POST the following book:\n" + book)
+      console.log("\nPOST the following book:\n" + book)
       res.redirect('/')  //res.redirect('back')
 
     });
@@ -158,7 +158,7 @@ exports.updateBook = function (req, res) {
         res.status(400).json(err);
       }
       //res.json(book);
-      console.log("\PUT the following book:\n" + book)
+      console.log("\nPUT the following book:\n" + book)
       res.redirect('/')  //res.redirect('back')
     });
 };
@@ -178,8 +178,8 @@ exports.deleteBook = function (req, res) {
 };
 
 //not in use for front-end
-//not in designed to interact with front-end directly 
-//can be used when needing to GET a doc in the postman
+//not designed to interact with front-end directly 
+//but it can be used when needing to GET a doc in the postman
 exports.getBook = function (req, res) {
   Book.findOne({ _id: req.params.id }, function (err, book) {
     if (err) {
@@ -192,8 +192,8 @@ exports.getBook = function (req, res) {
 };
 
 //not in use for front-end
-//not in designed to interact with front-end directly 
-//can be used when needing to deleting a bacth in the postman
+//not designed to interact with front-end directly 
+//but it can be used when needing to deleting a bacth in the postman
 exports.deleteBooks = function (req, res) {
   Book.deleteMany({}, function (err, book) {
     if (err) {

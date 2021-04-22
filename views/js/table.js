@@ -32,68 +32,23 @@ function select_row() {
 
     let id;
 
-    //delete
-    // let section, entree, id, name, title, author, price;
-
-    // delete
-    // //this if-else may not need
-    // if ($("#CRUD_option").val() == 3) {
-    //   $(".selected").removeClass("selected");
-    // } else {
-    //   $(".selected").removeClass("selected");
-    //   $(this).addClass("selected");
-    //   //$(this).addClass("selected").siblings().removeClass("selected");
-    // }
-
+    //selet a row
     $(".selected").removeClass("selected");
     $(this).addClass("selected");
-
-
-    //delete
-    // section = $(this).attr("secIndexNum");
-    // entree = $(this).attr("entree") - 1;
-    // console.log("section index: " + section);
-    // console.log("entree index: " + entree);
-
-
     console.log(".selected: " + $(".selected").closest('tr').text());
 
-    
-
-
-    //delete
-    // document.forms[1].entree.value = entree;
-
     //display a row in update form
+    //to help user get some basic info before update form submission
     document.forms[1].id.value = $(this).children("TD")[1].innerHTML;
     document.forms[1].title.value = $(this).children("TD")[2].innerHTML;
     document.forms[1].author.value = $(this).children("TD")[3].innerHTML;
     document.forms[1].price.value = $(this).children("TD")[4].innerHTML;
+    
+    //init id that will be used when updating a doc
     id = document.forms[1].id.value;
 
-    //delete
-    // name = document.forms[1].name.value;
-    // title = document.forms[1].title.value;
-    // author = document.forms[1].author.value;
-    // price = document.forms[1].price.value;
-
-    //delete
-    // //create
-    // if ($("#CRUD_option").val() == 0 && section != null && entree != null) {
-    //   $(".selected").removeClass("selected");
-    //   section = undefined;
-    //   entree = undefined;
-    // }
-
-    // //update
-    // if ($("#CRUD_option").val() == 1 && section != null && entree != null) {
-    //   update_row(id);
-    //   section = undefined;
-    //   entree = undefined;
-    // }
-
-
-    //create
+    //create: just remove the selected row 
+    //since post will be done directly between the post form in front end and the server
     if ($("#CRUD_option").val() == 0) {
       $(".selected").removeClass("selected");
       
@@ -107,6 +62,7 @@ function select_row() {
 
     //delete
     if ($("#CRUD_option").val() == 2) {
+      //init id from the selected row in table
       id = $(this).children("TD")[1].innerHTML;
       console.log("id to delete: " + id)
       delete_row(id);
@@ -118,7 +74,6 @@ function select_row() {
 
 
 function update_row(id) {
-
 
   $("#updateSubmit").click(function (e) {
     // e.stopImmediatePropagation();
@@ -146,7 +101,7 @@ function update_row(id) {
            *  it will still be in db though)
            */
 
-          // id:  document.forms[1].id.value,      
+          // id:  id,  //or id:  document.forms[1].id.value,
           // name: document.forms[1].name.value,   
           title: document.forms[1].title.value,
           author: document.forms[1].author.value,
@@ -154,7 +109,7 @@ function update_row(id) {
 
         },
         cache: false,
-        // success: setTimeout(draw_table(), 1000)
+        // success: setTimeout(draw_table(), 1000)  //this gives some error
         success: setTimeout(window.location.reload(), 1000)
       })
 
@@ -196,18 +151,13 @@ function change_CRUD_option(value) {
     $('#formCreation').show();
     $('#formUpdate').hide();
     $('#delete').hide();
-    $('#formCalcBill').hide();
     $('#menuTable input[type=checkbox]').attr('disabled', 'true');
-
 
     document.forms[0].id.value = null;
     document.forms[0].title.value = null;
     document.forms[0].author.value = null;
     document.forms[0].price.value = null;
 
-
-    //delete
-    // document.forms[1].entree.value = null;
     document.forms[1].id.value = null;
     document.forms[1].title.value = null;
     document.forms[1].author.value = null;
@@ -220,7 +170,6 @@ function change_CRUD_option(value) {
     $('#formUpdate').show();
     $('#delete').hide();
     $('#del-text-muted').hide();
-    $('#formCalcBill').hide();
     $('#menuTable input[type=checkbox]').attr('disabled', 'true');
 
     document.forms[0].id.value = null;
@@ -228,8 +177,6 @@ function change_CRUD_option(value) {
     document.forms[0].author.value = null;
     document.forms[0].price.value = null;
 
-    //delete
-    // document.forms[1].entree.value = null;
     document.forms[1].id.value = null;
     document.forms[1].title.value = null;
     document.forms[1].author.value = null;
@@ -242,7 +189,6 @@ function change_CRUD_option(value) {
     $('#delete').show();
     $(".selected").removeClass("selected");
     $('#del-text-muted').show();
-    $('#formCalcBill').hide();
     $('#menuTable input[type=checkbox]').attr('disabled', 'true');
 
     document.forms[0].id.value = null;
@@ -250,36 +196,11 @@ function change_CRUD_option(value) {
     document.forms[0].author.value = null;
     document.forms[0].price.value = null;
 
-    //delete
-    // document.forms[1].entree.value = null;
     document.forms[1].id.value = null;
     document.forms[1].title.value = null;
     document.forms[1].author.value = null;
     document.forms[1].price.value = null;
   }
-
-  //delete
-  // if (value == 3) {
-  //   $(".selected").removeClass("selected");
-  //   $('#formCreation').hide();
-  //   $('#formUpdate').hide();
-  //   $('#delete').hide();
-  //   $('#del-text-muted').hide();
-  //   $('#formCalcBill').show();
-  //   $('#calc-text-muted').show();
-  //   $('#menuTable input[type=checkbox]').removeAttr("disabled");
-
-  //   document.forms[0].id.value = null;
-  //   document.forms[0].title.value = null;
-  //   document.forms[0].author.value = null;
-  //   document.forms[0].price.value = null;
-
-  //   document.forms[1].entree.value = null;
-  //   document.forms[1].id.value = null;
-  //   document.forms[1].title.value = null;
-  //   document.forms[1].author.value = null;
-  //   document.forms[1].price.value = null;
-  // }
 
 }
 
@@ -301,8 +222,6 @@ function changeSection(value) {
     document.forms[0].author.value = null;
     document.forms[0].price.value = null;
 
-    //delete
-    // document.forms[1].entree.value = null;
     document.forms[1].id.value = null;
     document.forms[1].title.value = null;
     document.forms[1].author.value = null;
@@ -325,8 +244,6 @@ function changeSection(value) {
     document.forms[0].author.value = null;
     document.forms[0].price.value = null;
 
-    //delete
-    // document.forms[1].entree.value = null;
     document.forms[1].id.value = null;
     document.forms[1].title.value = null;
     document.forms[1].author.value = null;
@@ -339,6 +256,7 @@ function changeSection(value) {
     $(".selected").removeClass("selected");
     document.forms[0].name.value = "IT";
     document.forms[1].name.value = "IT";
+
     $('#sectionFiction').hide();
     $('#sectionSF').hide();
 
@@ -348,8 +266,6 @@ function changeSection(value) {
     document.forms[0].author.value = null;
     document.forms[0].price.value = null;
 
-    //delete
-    // document.forms[1].entree.value = null;
     document.forms[1].id.value = null;
     document.forms[1].title.value = null;
     document.forms[1].author.value = null;

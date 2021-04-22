@@ -32,6 +32,17 @@ table, th, td {
  th {
      font-weight: bold;
 }
+
+/* table #field th:first-child{
+  display: none;
+  visibility: hidden;
+} */
+
+/* tbody tr td:first-child {
+  display: none;
+  visibility: hidden;
+} */
+
 table #field th {
   background-color:#f2f2f2;
   position: -webkit-sticky;
