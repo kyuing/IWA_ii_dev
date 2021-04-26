@@ -39,7 +39,6 @@ exports.getBooks = function (req, res) {
   });
 };
 
-//may need to do await async
 //function to categorize books OBJ by section and return a xml converted. 
 function returnResult(books) {
 

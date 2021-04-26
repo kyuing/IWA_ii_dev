@@ -8,7 +8,7 @@ var express = require('express'),
 router.use(express.static(path.resolve(__dirname, 'views'))); //set the folder views as root path: serve static content from "views" folder 
 
 
-var bookCtrl = require('./book-controller');  //ref to user-controller.js
+var bookCtrl = require('./book-controller');  
 router.post('/books', bookCtrl.createBook); //insert books or a book
 router.get('/books', bookCtrl.getBooks);  //find all books
 router.get('/books/:id', bookCtrl.getBook);  //find a book
