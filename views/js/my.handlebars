@@ -1,0 +1,65 @@
+<table id="menuTable" border="1" class="indent">
+	<thead>
+		<tr>
+			<th colspan="5">
+				<section class="container d-flex flex-column justify-content-center align-items-center">
+					<span class="mb-2">Select a book section</span>
+					<select onchange="changeSection(value)" class="custom-select col-8">
+						<option value="Fiction">Fiction</option>
+						<option value="SF">SF</option>
+						<option value="IT">IT</option>
+					</select>
+				</section>
+			</th>
+		</tr>
+		<tr id="field">
+			{{!-- <th>Select</th> --}}
+			<th>ID</th>
+			<th>Title</th>
+			<th>Author</th>
+			<th>Price</th>
+		</tr>
+	</thead>
+
+	{{!-- {{#this}} --}}
+
+	<tbody id="sectionFiction">
+		{{#this}}
+			{{#if this.name 'FICTION'}}
+				<tr>
+					<td>{{_id}}</td>
+					<td>{{title}}</td>
+					<td>{{author}}</td>
+					<td>{{price}}</td>
+				</tr>
+			{{/if}}
+		{{/this}}
+	</tbody>
+
+	<tbody id="sectionSF">
+		{{#this}}
+			{{#if this.name 'SF'}}
+				<tr>
+					<td>{{_id}}</td>
+					<td>{{title}}</td>
+					<td>{{author}}</td>
+					<td>{{price}}</td>
+				</tr>
+			{{/if}}
+		{{/this}}
+	</tbody>
+
+	<tbody id="sectionIT">
+		{{#this}}
+			{{#if this.name 'IT'}}
+				<tr>
+					<td>{{_id}}</td>
+					<td>{{title}}</td>
+					<td>{{author}}</td>
+					<td>{{price}}</td>
+				</tr>
+			{{/if}}
+		{{/this}}
+	</tbody>
+	{{!-- {{/this}} --}}
+</table>

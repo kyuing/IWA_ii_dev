@@ -28,7 +28,7 @@ function draw_table() {
 
 function select_row() {
 
-  $("#menuTable tbody tr[entree]").click(function () {
+  $("#menuTable tbody tr").click(function () {
 
     let id;
 
@@ -37,15 +37,18 @@ function select_row() {
     $(this).addClass("selected");
     console.log(".selected: " + $(".selected").closest('tr').text());
 
-    //display a row in update form
-    //to help user get some basic info before update form submission
-    document.forms[1].id.value = $(this).children("TD")[1].innerHTML;
-    document.forms[1].title.value = $(this).children("TD")[2].innerHTML;
-    document.forms[1].author.value = $(this).children("TD")[3].innerHTML;
-    document.forms[1].price.value = $(this).children("TD")[4].innerHTML;
+    //Display a row in update form 
+    //just to help user get some basic info before update form submission.
+    //That means, when actually updating a row, 
+    //the function update_row() will check and take the latest values only
+    //from the update form
+    document.forms[1].id.value = $(this).children("TD")[0].innerHTML;
+    document.forms[1].title.value = $(this).children("TD")[1].innerHTML;
+    document.forms[1].author.value = $(this).children("TD")[2].innerHTML;
+    document.forms[1].price.value = $(this).children("TD")[3].innerHTML;
     
     //init id that will be used when updating a doc
-    id = document.forms[1].id.value;
+    // id = document.forms[1].id.value;
 
     //create: just remove the selected row 
     //since post will be done directly between the post form in front end and the server
@@ -56,16 +59,18 @@ function select_row() {
 
     //update
     if ($("#CRUD_option").val() == 1) {
-      update_row(id);
-      
+
+      update_row();
     }
 
     //delete
     if ($("#CRUD_option").val() == 2) {
       //init id from the selected row in table
-      id = $(this).children("TD")[1].innerHTML;
-      console.log("id to delete: " + id)
-      delete_row(id);
+      // id = $(this).children("TD")[0].innerHTML;
+      // console.log("id to delete: " + id)
+      // delete_row(id);
+
+      delete_row();
     }
 
   })
@@ -73,15 +78,16 @@ function select_row() {
 };
 
 
-function update_row(id) {
+function update_row() {
 
   $("#updateSubmit").click(function (e) {
     // e.stopImmediatePropagation();
     e.preventDefault();
-
+  
     $.ajax(
       {
-        url: "/books/" + id,
+        //take the lastest ID value in the update form only
+        url: "/books/" + document.forms[1].id.value,
         method: 'PUT',  //type: "PUT",
 
         data:
@@ -90,19 +96,15 @@ function update_row(id) {
           /**
            * retrieve the latest values that user has put into update form  
            * on $("#updateSubmit").click.
-           * and then send this req.body to the server
+           * and then send this (which will be req.body) to the server.
            * 
-           * id and name are commented out and are not sent to the server
-           * since no need to update them.
-           * (name which is one of the section names; FICTION, SF or IT
-           *  can be sent to the server and update works in mongodb and api.
-           *  but any doc whose value of the name field is not one of FICTION, SF or IT
-           *  won't be loaded in front-end since the front-end is designed to do so, 
-           *  it will still be in db though)
+           * BTW, id and name don't need to be in this data body
+           * since those will be first found from the url above
+           * and don't need to be changed
            */
 
-          // id:  id,  //or id:  document.forms[1].id.value,
-          // name: document.forms[1].name.value,   
+          //id:  document.forms[1].id.value,
+          //name: document.forms[1].name.value,   
           title: document.forms[1].title.value,
           author: document.forms[1].author.value,
           price: document.forms[1].price.value
@@ -110,7 +112,7 @@ function update_row(id) {
         },
         cache: false,
         // success: setTimeout(draw_table(), 1000)  //this gives some error
-        success: setTimeout(window.location.reload(), 1000)
+        success: setTimeout(window.location.reload(),1000)
       })
 
     $(".selected").removeClass("selected");
@@ -120,11 +122,16 @@ function update_row(id) {
 };
 
 
-function delete_row(id) {
+// function delete_row(id) {
+  function delete_row() {
 
   $("#delete").click(function (e) {
     e.stopImmediatePropagation();
     // e.preventDefault();
+
+    //take the lastest ID value from the selected row only
+    const id = $(".selected").children("TD")[0].innerHTML;
+    console.log("id to delete: " + id)
 
     $.ajax(
       {
@@ -134,10 +141,11 @@ function delete_row(id) {
         data:
           { id: id },
         cache: false,
-        success: setTimeout(window.location.reload(), 1000),
+        success: setTimeout(window.location.reload(), 2000)
         // success: setTimeout(draw_table, 1000), //this give an error
       })
 
+    
     $(".selected").removeClass("selected");
 
   })
@@ -151,7 +159,6 @@ function change_CRUD_option(value) {
     $('#formCreation').show();
     $('#formUpdate').hide();
     $('#delete').hide();
-    $('#menuTable input[type=checkbox]').attr('disabled', 'true');
 
     document.forms[0].id.value = null;
     document.forms[0].title.value = null;
@@ -170,7 +177,6 @@ function change_CRUD_option(value) {
     $('#formUpdate').show();
     $('#delete').hide();
     $('#del-text-muted').hide();
-    $('#menuTable input[type=checkbox]').attr('disabled', 'true');
 
     document.forms[0].id.value = null;
     document.forms[0].title.value = null;
@@ -189,7 +195,6 @@ function change_CRUD_option(value) {
     $('#delete').show();
     $(".selected").removeClass("selected");
     $('#del-text-muted').show();
-    $('#menuTable input[type=checkbox]').attr('disabled', 'true');
 
     document.forms[0].id.value = null;
     document.forms[0].title.value = null;
@@ -272,47 +277,6 @@ function changeSection(value) {
     document.forms[1].price.value = null;
   }
 };
-
-function loadMore(sectionSelected) {
-
-  console.log("[sectionSelected]");
-  console.log(sectionSelected);
-  // console.log("loadSetSize: " + loadSetSize);
-
-  let x = sectionSelected.children;
-  let currAndNextLoadSet = [];
-  let txt = "";
-  let i, j, currLoadSetNum = 0, temp_i;
-
-  for (i = 0; i < x.length; i++) {
-    for (j = 0; j < x[i].attributes.length; j++) {
-      if (x[i].attributes[j].name == 'style' && x[i].attributes[j].value == 'display: table-row;') {
-        currLoadSetNum = x[i].attributes[j + 1].value;
-        currAndNextLoadSet.push(i);
-
-      }
-      else {
-        if (x[i].attributes[j].name == 'prevloadset' && x[i].attributes[j].value == currLoadSetNum) {
-          currAndNextLoadSet.push(i);
-          // currLoadSetNum = 0;
-        }
-      }
-    }
-  }
-  console.log("currAndNextLoadSetIndex: " + currAndNextLoadSet);
-
-  for (temp_i = 0; temp_i < currAndNextLoadSet.length; temp_i++) {
-    //txt = txt + x[temp_i] + "\n";
-    $(x[temp_i]).css('display', 'table-row');
-
-    //hide "Load More" btn
-    if (currAndNextLoadSet.length == x.length - 1) {
-      // $('#loadMore').hide();
-      $(x[x.length - 1]).css('display', 'none');
-    }
-  }
-  //console.log("txt : " + txt );
-}
 
 
 

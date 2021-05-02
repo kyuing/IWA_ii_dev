@@ -9,11 +9,11 @@ router.use(express.static(path.resolve(__dirname, 'views'))); //set the folder v
 
 
 var bookCtrl = require('./book-controller');  
-router.post('/books', bookCtrl.createBook); //insert books or a book
-router.get('/books', bookCtrl.getBooks);  //find all books
-router.get('/books/:id', bookCtrl.getBook);  //find a book
-router.put('/books/:id', bookCtrl.updateBook); //update a book
-router.delete('/books/:id', bookCtrl.deleteBook); //delete a book
-router.delete('/books', bookCtrl.deleteBooks);  //delete all books
+router.post('/books', bookCtrl.createBook); //post a doc
+router.get('/books', bookCtrl.getBooks);  //get all docs
+router.get('/books/:id', bookCtrl.getBook);  //get a doc
+router.put('/books/:id', bookCtrl.updateBook); //put a doc
+router.delete('/books/:id', bookCtrl.deleteBook); //delete a doc
+router.delete('/books', bookCtrl.deleteBooks);  //delete all docs
 
 module.exports = router;  // export router 
