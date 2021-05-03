@@ -115,7 +115,7 @@ exports.deleteBook = function (req, res) {
 
 };
 
-//not in use for now
+
 //not designed to interact with front-end directly 
 //but it can be used when testing to GET a doc in the postman
 exports.getBook = function (req, res) {
@@ -123,13 +123,13 @@ exports.getBook = function (req, res) {
     if (err) {
       res.status(400).json(err);
     }
-    //res.json(book);
-    console.log(book)
-    res.redirect('/')  //res.redirect('back')
+    res.json(book);
+    // console.log(book)
+    // res.redirect('/')  //res.redirect('back')
   });
 };
 
-//not in use for now
+
 //not designed to interact with front-end directly 
 //but it can be used when testing to DELETE a bacth in the postman
 exports.deleteBooks = function (req, res) {
