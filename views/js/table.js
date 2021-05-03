@@ -30,7 +30,9 @@ function select_row() {
 
   $("#menuTable tbody tr").click(function () {
 
-    let id;
+    /***********
+    // let id;
+    ***********/
 
     //selet a row
     $(".selected").removeClass("selected");
@@ -38,17 +40,24 @@ function select_row() {
     console.log(".selected: " + $(".selected").closest('tr').text());
 
     //Display a row in update form 
-    //just to help user get some basic info before update form submission.
+    //just to help user get some basic info before the update form submission.
     //That means, when actually updating a row, 
-    //the function update_row() will check and take the latest values only
+    //the function update_row() will check and take the latest values once more
     //from the update form
     document.forms[1].id.value = $(this).children("TD")[0].innerHTML;
     document.forms[1].title.value = $(this).children("TD")[1].innerHTML;
     document.forms[1].author.value = $(this).children("TD")[2].innerHTML;
     document.forms[1].price.value = $(this).children("TD")[3].innerHTML;
     
+    /*********************************************************************
+     * id can be initialized here and can be passed to other functions,
+     * which works fine,
+     * but doing so here is a bit fussy to deal with dynamic form values
+     * when you actually need.
+     
     //init id that will be used when updating a doc
     // id = document.forms[1].id.value;
+    ***********************************************************************/
 
     //create: just remove the selected row 
     //since post will be done directly between the post form in front end and the server
@@ -59,17 +68,11 @@ function select_row() {
 
     //update
     if ($("#CRUD_option").val() == 1) {
-
       update_row();
     }
 
     //delete
     if ($("#CRUD_option").val() == 2) {
-      //init id from the selected row in table
-      // id = $(this).children("TD")[0].innerHTML;
-      // console.log("id to delete: " + id)
-      // delete_row(id);
-
       delete_row();
     }
 
@@ -81,7 +84,7 @@ function select_row() {
 function update_row() {
 
   $("#updateSubmit").click(function (e) {
-    // e.stopImmediatePropagation();
+    e.stopImmediatePropagation();
     e.preventDefault();
   
     $.ajax(
@@ -112,43 +115,41 @@ function update_row() {
         },
         cache: false,
         // success: setTimeout(draw_table(), 1000)  //this gives some error
-        success: setTimeout(window.location.reload(),1000)
+        success: setTimeout(window.location.reload(),1000) //the same effect as calling draw_table()
       })
 
-    $(".selected").removeClass("selected");
+    // $(".selected").removeClass("selected");
 
   })
 
 };
 
-
-// function delete_row(id) {
   function delete_row() {
 
-  $("#delete").click(function (e) {
-    e.stopImmediatePropagation();
-    // e.preventDefault();
+    $("#delete").click(function (e) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
 
-    //take the lastest ID value from the selected row only
-    const id = $(".selected").children("TD")[0].innerHTML;
-    console.log("id to delete: " + id)
+      //take the lastest ID value from the selected row in the table only
+      const id = $(".selected").children("TD")[0].innerHTML;
+      console.log("id to delete: " + id)
 
-    $.ajax(
-      {
-        url: "/books/" + id,
-        method: 'DELETE',
+      $.ajax(
+        {
+          url: "/books/" + id,
+          method: 'DELETE',
 
-        data:
-          { id: id },
-        cache: false,
-        success: setTimeout(window.location.reload(), 2000)
-        // success: setTimeout(draw_table, 1000), //this give an error
-      })
+          data:
+            { id: id },
+          cache: false,
+          success: setTimeout(window.location.reload(), 2000) //the same effect as calling draw_table()
+          // success: setTimeout(draw_table, 1000), //this give an error
+        })
 
-    
-    $(".selected").removeClass("selected");
+      
+      // $(".selected").removeClass("selected");
 
-  })
+    })
 
 };
 

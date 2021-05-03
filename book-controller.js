@@ -23,19 +23,22 @@ exports.getBooks = function (req, res) {
     }
 
     // console.log(__dirname)
+
+    //init readStream
     let readStream = fs.createReadStream(__dirname + '/views/index.html')
 
-    // When the stream is done being read, end the response
+    // When the stream is done being read, end res
     readStream.on('close', () => {
       res.end()
     })
 
-
+    //get source handlbars template and compile it
     var source = fs.readFileSync('./views/js/my.handlebars', 'utf8');
     var template = Handlebars.compile(source);
 
     // console.log(books)
 
+    //set an if helper for Handlebars
     Handlebars.registerHelper("if", function(a, b, options) {
       if (a == b) {
         return options.fn(this);
@@ -53,7 +56,7 @@ exports.getBooks = function (req, res) {
 };
 
 
-//post books or a book
+//post docs or a docs
 exports.createBook = function (req, res) {
   if (req.body.batch) {
 
@@ -85,7 +88,7 @@ exports.createBook = function (req, res) {
   }
 };
 
-//update a book
+//update a doc
 exports.updateBook = function (req, res) {
   Book.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, book) {
 
@@ -98,7 +101,7 @@ exports.updateBook = function (req, res) {
   });
 };
 
-//delete a book
+//delete a doc
 exports.deleteBook = function (req, res) {
 
   Book.findByIdAndRemove(req.params.id, function (err, book) {
@@ -112,7 +115,7 @@ exports.deleteBook = function (req, res) {
 
 };
 
-//not in use for front-end
+//not in use for now
 //not designed to interact with front-end directly 
 //but it can be used when testing to GET a doc in the postman
 exports.getBook = function (req, res) {
@@ -126,7 +129,7 @@ exports.getBook = function (req, res) {
   });
 };
 
-//not in use for front-end
+//not in use for now
 //not designed to interact with front-end directly 
 //but it can be used when testing to DELETE a bacth in the postman
 exports.deleteBooks = function (req, res) {

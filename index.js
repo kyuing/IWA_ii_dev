@@ -11,7 +11,6 @@ mongoose = require('mongoose');
 var app = express();
 var port = process.env.PORT || 8000;
 
-// app.set('view engine', 'Handlebars');
 
 // Middlewares 
 dotenv.config();
